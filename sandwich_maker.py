@@ -36,14 +36,14 @@ sandwich.append([f"{bread_type} bread", prices["bread"][bread_type]])
 protein_type = pyip.inputMenu(["chicken", "turkey", "ham", "tofu"], prompt="\nWhat protein🍗 woukd you like in your sandwich\n\n", numbered=True, default="chicken", limit=3)
 sandwich.append([f"{protein_type}", prices["protein"][protein_type]])
 
-# cheese y or n
+# chesse?
 cheese = pyip.inputYesNo(prompt="\nWould you like cheese🧀 in your sandwich?\n Enter (y)es or (n)o\n")
-if(cheese == "yes"):# cheese type cheddar swiss or mozarella
+if(cheese == "yes"):# cheese type
     cheese_type = pyip.inputMenu(["cheddar", "swiss", "mozarella"], prompt="What type of cheese🧀 would you like in your sandwich\n", numbered=True ,default="cheddar", limit=3)
     sandwich.append([f"{cheese_type} cheese", prices["cheese"][cheese_type]])
 
 
-# extra condoments like mayo, mustard, lettuce, or tomato
+# extra condoments?
 extra_condoments = (["mayo", ''], ["mustard", ''], ["lettuce", "🥬"], ["tomato", "🍅"])
 for condoment in extra_condoments:
     extra_condoment = condoment[0]
@@ -51,8 +51,11 @@ for condoment in extra_condoments:
     if choice == "yes":
         sandwich.append([f"{condoment[0]}", prices[extra_condoment]])
 
-# how many sandwiches
+# no of sandwiches
 number_of_sandwiches = pyip.inputNum("How many of this sandwich type do you want\n", allowRegexes=[r"[0-9]+"], blockRegexes=(r"(?=.*\.)", "Please enter a whole number"))
+
+
+time.sleep(0.5)
 
 # display price
 total = 0
