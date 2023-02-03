@@ -4,25 +4,25 @@ import pyinputplus as pyip, time
 # dictionary with prices of everything
 prices = {
     "bread": {
-        "wheat": 1.5,
-        "white": 1,
+        "wheat": 1.50,
+        "white": 1.00,
         "sourdough": 1.25,
     },
     "protein": {
         "chicken": 0.75,
-        "turkey": 1,
+        "turkey": 1.00,
         "ham": 0.75,
         "tofu": 0.5
     },
     "cheese": {
         "cheddar": 0.25,
         "swiss": 0.25,
-        "mozarella": 0.3,
+        "mozarella": 0.30,
     },
-    "mayo": 0.1,
-    "mustard": 0.1,
-    "lettuce": 0.1,
-    "tomato": 0.1,
+    "mayo": 0.10,
+    "mustard": 0.10,
+    "lettuce": 0.10,
+    "tomato": 0.10,
 }
 
 # sandwich list
@@ -42,7 +42,6 @@ if(cheese == "yes"):# cheese type
     cheese_type = pyip.inputMenu(["cheddar", "swiss", "mozarella"], prompt="What type of cheese🧀 would you like in your sandwich\n", numbered=True ,default="cheddar", limit=3)
     sandwich.append([f"{cheese_type} cheese", prices["cheese"][cheese_type]])
 
-
 # extra condoments?
 extra_condoments = (["mayo", ''], ["mustard", ''], ["lettuce", "🥬"], ["tomato", "🍅"])
 for condoment in extra_condoments:
@@ -52,22 +51,26 @@ for condoment in extra_condoments:
         sandwich.append([f"{condoment[0]}", prices[extra_condoment]])
 
 # no of sandwiches
-number_of_sandwiches = pyip.inputNum("How many of this sandwich type do you want\n", allowRegexes=[r"[0-9]+"], blockRegexes=(r"(?=.*\.)", "Please enter a whole number"))
+number_of_sandwiches = pyip.inputNum("How many of this sandwich type do you want\n", allowRegexes=[r"^[0-9]+$"], blockRegexes=[(r"^[0-9]+\.[0-9]*$", "Please enter a whole number")])
 
-
-time.sleep(0.5)
+time.sleep(0.5) # wait before showing price
 
 # display price
 total = 0
-print('\n'+"RECEIPT".center(20,)+"\n")
-print(f"{'Ingredient'.center(11)} - Price ($)")
+print('\n'+"RECEIPT".center(28))
+print(f"{'Ingredient'.center(16)} | Price ($)")
+print("-"*28)
 for sandwich_part in sandwich:
-    print(f"{(sandwich_part[0].rjust(11)).title()} - {str(sandwich_part[1]).rjust(9)}")
+    print(f"{(sandwich_part[0].ljust(16)).title()} - {str(sandwich_part[1]).rjust(9)}")
     total += sandwich_part[1]
+
+print(('-'*5).rjust(28))
+print(f"{str(round(total, 2)).rjust(28)}")
 
 if(number_of_sandwiches > 1):
     print(f"X {number_of_sandwiches}")
     total *= number_of_sandwiches
-    total = round(total, 2)
 
-print(f"{'Total'.rjust(11)} - {str(total).rjust(9)}")
+print("-"*28)
+print(f"{'Total'.ljust(16)} = {str(round(total, 2)).rjust(9)}")
+print("-"*28)
