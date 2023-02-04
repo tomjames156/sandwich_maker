@@ -60,6 +60,8 @@ while True:
 
 time.sleep(0.5) # wait before showing price
 
+
+# sort the ingredients
 def sort_ingredients(parent_list):
     """This function neatly sorts the ingredients used into a dictionary"""
     ingredients = {}
@@ -75,33 +77,29 @@ def sort_ingredients(parent_list):
 ingredients = sort_ingredients(sandwiches)
 sandwich_1 = sort_ingredients([sandwiches[0]])
 
+
+# calculate the price
 def compute_price(dictionary):
-    """This function displays the price of the sandwiches"""
+    """This function displays the price of the sandwiche(s)"""
     total = 0
     for key, value in dictionary.items():
         total += (value * prices[key])
 
-    print(f"${str(round(total, 2)).ljust(5, '0')}")
+    total = (f"${str(round(total, 2)).ljust(5, '0')}")
+    return total
 
-compute_price(ingredients)
+# display receipt
+def display_receipt(ingredients, total):
+    """This function displays a receipt"""
 
-# display price
+    print('\n'+"RECEIPT".center(32))
+    print(f"{'Ingredient'.center(20)} | Price ($)")
+    print("-"*32)
+    for key, value in ingredients.items():
+        print(f"{(key.ljust(16)).title()} ({value}) - {str(prices[key]).rjust(9)}")
 
-# print('\n'+"RECEIPT".center(28))
-# print(f"{'Ingredient'.center(16)} | Price ($)")
-# print("-"*28)
-# for sandwich_part in sandwich:
-#     print(f"{(sandwich_part[0].ljust(16)).title()} - {str(sandwich_part[1]).rjust(9)}")
-#     total += sandwich_part[1]
+    print("-"*32)
+    print(f"{'Total'.ljust(20)} = {str(total).rjust(9)}")
+    print("-"*32)
 
-# print(('-'*5).rjust(28))
-# print(f"{str(round(total, 2)).rjust(28)}")
-
-# if(number_of_sandwiches > 1):
-#     print(f"X {number_of_sandwiches}")
-#     total *= number_of_sandwiches
-
-# print("-"*28)
-# print(f"{'Total'.ljust(16)} = {str(round(total, 2)).rjust(9)}")
-# print("-"*28)
-# print(sandwich)
+display_receipt(ingredients, compute_price(ingredients))
