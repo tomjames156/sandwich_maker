@@ -48,11 +48,11 @@ while True:
             current_sandwich.append((f"{condoment[0]}", prices[condoment[0]]))
 
     # no of sandwiches
-    number_of_sandwiches = pyip.inputNum("How many of this sandwich type do you want\n", allowRegexes=[r"^[0-9]+$"], blockRegexes=[(r"^[0-9]+\.[0-9]*$", "Please enter a whole number")])            
+    number_of_sandwiches = pyip.inputNum("How many of this sandwich type do you want\n=>: ", allowRegexes=[r"^[0-9]+$"], blockRegexes=[(r"^[0-9]+\.[0-9]*$", "Please enter a whole number")])            
 
-    make_another = pyip.inputYesNo(prompt="Would you like to order another sandwich?\n", limit=3)
+    make_another = pyip.inputYesNo(prompt="Would you like to order another sandwich?\nEnter (y)es or (n)o\n=>:", limit=3)
     sandwiches.append((current_sandwich, number_of_sandwiches))
-    pprint.pprint(sandwiches)
+    # pprint.pprint(sandwiches)
     if make_another == 'yes':
         continue
     else:
@@ -71,11 +71,10 @@ def sort_ingredients(parent_list):
             ingredients.setdefault(ingredient[0], 0)
             ingredients[ingredient[0]] += (1*child_list[1]) 
 
-    print(ingredients)
+    # pprint.pprint(ingredients)
     return ingredients
 
 ingredients = sort_ingredients(sandwiches)
-sandwich_1 = sort_ingredients([sandwiches[0]])
 
 
 # calculate the price
@@ -88,6 +87,40 @@ def compute_price(dictionary):
     total = (f"${str(round(total, 2)).ljust(5, '0')}")
     return total
 
+
+def list_string(list):
+
+    # This function lists all list items as a single sentence
+    sentence = ''
+    for i in range(len(list)):
+
+        if(len(list) >= 3):
+            if(i == (len(list) - 2)):
+                sentence += list[i].lower() + ', and '
+            elif(i == (len(list) - 1)): 
+                sentence += list[i].lower()
+            else:
+                sentence += list[i].lower() + ", "
+        else:
+            if(i == (len(list) - 2)):
+                sentence += list[i].lower() + ' and '
+            elif(i == (len(list) - 1)): 
+                sentence += list[i].lower()
+            else:
+                sentence += list[i].lower() + ", "
+
+    return sentence
+
+def display_sandwiches():
+    """This function displays the sandwiches that were made"""
+    # print(len(sandwiches))
+    print("\n")
+    for index, sandwich in enumerate(sandwiches):
+        ingredients_list = list(sort_ingredients([sandwich]).keys())
+        print(f"Sandwich {index + 1}: {list_string(ingredients_list)} ({sandwich[1]})")
+
+display_sandwiches()
+
 # display receipt
 def display_receipt(ingredients, total):
     """This function displays a receipt"""
@@ -96,7 +129,8 @@ def display_receipt(ingredients, total):
     print(f"{'Ingredient'.center(20)} | Price ($)")
     print("-"*32)
     for key, value in ingredients.items():
-        print(f"{(key.ljust(16)).title()} ({value}) - {str(prices[key]).rjust(9)}")
+        price = str(prices[key]).ljust(4, "0")
+        print(f"{(key.ljust(16)).title()} ({value}) - {str(price).rjust(9)}")
 
     print("-"*32)
     print(f"{'Total'.ljust(20)} = {str(total).rjust(9)}")
